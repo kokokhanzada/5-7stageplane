@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Step Splitter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background-color: #f0f0f0;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, select, button {
+      width: 100%;
+      padding: 1rem;
+      margin-top: 1rem;
+      font-size: 1rem;
+    }
+    .result {
+      margin-top: 1.5rem;
+      white-space: pre-line;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Advanced Step Splitter</h2>
+    <input type="number" id="inputNumber" placeholder="Enter a number" />
+    <select id="multiplier">
+      <option value="2">Multiplier: ×2</option>
+      <option value="3" selected>Multiplier: ×3</option>
+    </select>
+    <select id="stepCount">
+      <option value="4">Show 4 Steps</option>
+      <option value="5" selected>Show 5 Steps</option>
+      <option value="6">Show 6 Steps</option>
+      <option value="7">Show 7 Steps</option>
+    </select>
+    <button onclick="splitNumber()">Generate Steps</button>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function splitNumber() {
+      const input = parseFloat(document.getElementById('inputNumber').value);
+      const multiplier = parseInt(document.getElementById('multiplier').value);
+      const stepsCount = parseInt(document.getElementById('stepCount').value);
+      const resultDiv = document.getElementById('result');
+
+      if (isNaN(input) || input <= 0) {
+        resultDiv.innerHTML = "Please enter a valid positive number.";
+        return;
+      }
+
+      let base = input / Math.pow(multiplier, stepsCount - 1);
+      base = Math.floor(base);
+
+      let steps = [];
+      for (let i = 0; i < stepsCount; i++) {
+        steps.push(base * Math.pow(multiplier, i));
+      }
+
+      resultDiv.innerHTML = `Steps (${stepsCount} using ×${multiplier}):\n${steps.join(", ")}`;
+    }
+  </script>
+</body>
+</html>
