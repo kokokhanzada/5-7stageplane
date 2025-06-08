@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Advanced Step Splitter</title>
+  <title>Step Divider with Exact Sum</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -31,11 +31,11 @@
 </head>
 <body>
   <div class="container">
-    <h2>Advanced Step Splitter</h2>
-    <input type="number" id="inputNumber" placeholder="Enter a number" />
+    <h2>Step Divider by Sum</h2>
+    <input type="number" id="inputNumber" placeholder="Enter total value (e.g. 150)" />
     <select id="multiplier">
-      <option value="2">Multiplier: ×2</option>
-      <option value="3" selected>Multiplier: ×3</option>
+      <option value="2" selected>Multiplier: ×2</option>
+      <option value="3">Multiplier: ×3</option>
     </select>
     <select id="stepCount">
       <option value="4">Show 4 Steps</option>
@@ -59,16 +59,19 @@
         return;
       }
 
-      // calculate base value: input / (multiplier ^ (stepsCount - 1))
-      let base = input / Math.pow(multiplier, stepsCount - 1);
-      base = Math.floor(base);
+      // geometric series sum formula: total = a * (r^n - 1) / (r - 1)
+      let seriesSum = Math.pow(multiplier, stepsCount) - 1;
+      seriesSum = seriesSum / (multiplier - 1);
+      let base = input / seriesSum;
+      base = Math.round(base);
 
       let steps = [];
       for (let i = 0; i < stepsCount; i++) {
         steps.push(base * Math.pow(multiplier, i));
       }
 
-      resultDiv.innerHTML = `Steps (${stepsCount} using ×${multiplier}):\n${steps.join(", ")}`;
+      let actualSum = steps.reduce((a, b) => a + b, 0);
+      resultDiv.innerHTML = `Steps (${stepsCount} using ×${multiplier}):\n${steps.join(" + ")} = ${actualSum}`;
     }
   </script>
 </body>
